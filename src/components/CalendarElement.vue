@@ -237,32 +237,4 @@ export default {
 </script>
 
 <style scoped>
-.event {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  background-color: white;
-  box-shadow: 0 2px 13px 0.5px rgba(0, 0, 0, 0.05);
-  padding: 3px 5px;
-  border: 1px solid gray;
-  border-radius: 4px;
-  word-break: break-word;
-  margin-bottom: 3px;
-  cursor: pointer;
-}
-
-.event .name {
-  display: inline-block;
-  text-align: left;
-  font-size: 13px;
-  font-family: inherit;
-}
-.margin-0 {
-  margin: 0;
-}
-
-.padding-0 {
-  padding: 0;
-}
 </style>

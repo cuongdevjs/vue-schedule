@@ -91,16 +91,16 @@
       >
         <el-button-group>
           <el-button
-            @click="prev"
+            @click="prevWeek"
             type="primary"
             size="mini"
             icon="el-icon-arrow-left"
-          >Previous Week</el-button>
+          >Tuần trước</el-button>
           <el-button
-            @click="next"
+            @click="nextWeek"
             size="mini"
             type="primary"
-          >Next Week<i class="el-icon-arrow-right el-icon-right"></i></el-button>
+          >Tuần tới<i class="el-icon-arrow-right el-icon-right"></i></el-button>
         </el-button-group>
         <el-table
           :data="tableData"
@@ -233,43 +233,24 @@ export default {
     },
 
     getEvent (event) {
-      this.$emit('getEvent', event)
+      this.$emit('eventClick', event)
     },
 
     // by week
 
-    pad (num) {
-      return ("0" + num).slice(-2);
-    },
     getDateFormatFromDate (timestamp) {
       var date = new Date(timestamp * 1000)
       return date.toLocaleDateString(['ban', 'id']);
     },
-    getTimeFromDate (timestamp) {
-      var date = new Date(timestamp * 1000);
-      var minutes = date.getMinutes();
-      var hours = date.getHours();
-      return this.pad(hours) + ':' + this.pad(minutes);
-    },
-    getHoursFromDate (timestamp) {
-      var date = new Date(timestamp * 1000);
-      var hours = date.getHours();
-      return this.pad(hours)
-    },
-    getMinutesFromDate (timestamp) {
-      var date = new Date(timestamp * 1000);
-      var minutes = date.getMinutes();
-      return this.pad(minutes)
-    },
 
 
 
-    prev () {
+    prevWeek () {
       var pastDate = this.dateWeeken.getDate() - 7;
       this.dateWeeken.setDate(pastDate);
       this.getDayofWeek(this.dateWeeken)
     },
-    next () {
+    nextWeek () {
       var pastDate = this.dateWeeken.getDate() + 7;
       this.dateWeeken.setDate(pastDate);
       this.getDayofWeek(this.dateWeeken)
@@ -283,45 +264,10 @@ export default {
         this.listDateofWeek.push(next.toLocaleDateString(['ban', 'id']));
       }
     },
-    getEvent (value) {
-      console.log(value)
-    }
   },
   data () {
     return {
       dateCurrent: moment().utc(),
-      listEvent: [
-        {
-          place_id: 1,
-          hoursStart: 1553045407,
-          hoursEnd: 1553052607,
-          name: 'Họp hội đồng quản trị thường niên Tổng công ty Mobifone'
-        },
-        {
-          place_id: 3,
-          hoursStart: 1553052607,
-          hoursEnd: 1553059807,
-          name: 'Họp hội đồng quản trị eoffice'
-        },
-        {
-          place_id: 3,
-          hoursStart: 1553045407,
-          hoursEnd: 1553052607,
-          name: 'Tình hình báo cáo nhân sự'
-        },
-        {
-          place_id: 2,
-          hoursStart: 1553045407,
-          hoursEnd: 1553052607,
-          name: 'Tình hình báo cáo nhân sự'
-        },
-        {
-          place_id: 8,
-          hoursStart: 1555816218,
-          hoursEnd: 1555837818,
-          name: 'Báo cáo tình hình phát triển trung tâm công nghệ thông tin Mobifone'
-        }
-      ],
       listTimeline: ['08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00'],
       tableData: [
         {
@@ -403,43 +349,44 @@ export default {
           hoursStart: 1555837818,
           hoursEnd: 155583890,
           name: 'Báo cáo tình hình phát triển trung tâm công nghệ thông tin Mobifone'
+        },
+        {
+          place_id: 1,
+          date: 1555816218,
+          hoursStart: 1553045407,
+          hoursEnd: 1553052607,
+          name: 'Họp hội đồng quản trị thường niên Tổng công ty Mobifone'
+        },
+        {
+          place_id: 3,
+          date: 1555816218,
+          hoursStart: 1553052607,
+          hoursEnd: 1553059807,
+          name: 'Họp hội đồng quản trị eoffice'
+        },
+        {
+          place_id: 3,
+          date: 1555816218,
+          hoursStart: 1553045407,
+          hoursEnd: 1553052607,
+          name: 'Tình hình báo cáo nhân sự'
+        },
+        {
+          place_id: 2,
+          date: 1555816218,
+          hoursStart: 1553045407,
+          hoursEnd: 1553052607,
+          name: 'Tình hình báo cáo nhân sự'
+        },
+        {
+          place_id: 8,
+          date: 1555816218,
+          hoursStart: 1555816218,
+          hoursEnd: 1555837818,
+          name: 'Báo cáo tình hình phát triển trung tâm công nghệ thông tin Mobifone'
         }
       ],
-      listDateofWeek: [],
-      tableData: [{
-        id: 1,
-        place: 'Phòng họp 12a'
-      }, {
-        id: 2,
-        place: 'Phòng họp 12a'
-      }, {
-        id: 3,
-        place: 'Phòng họp 12a'
-      }, {
-        id: 4,
-        place: 'Phòng họp 12a'
-      }, {
-        id: 5,
-        place: 'Phòng họp 12a'
-      }, {
-        id: 6,
-        place: 'Phòng họp 12a'
-      }, {
-        id: 7,
-        place: 'Phòng họp 12a'
-      }, {
-        id: 8,
-        place: 'Phòng họp 12a'
-      }, {
-        id: 9,
-        place: 'Phòng họp 12a'
-      }, {
-        id: 10,
-        place: 'Phòng họp 12a'
-      }, {
-        id: 11,
-        place: 'Phòng họp 12a'
-      }]
+      listDateofWeek: []
     }
   },
   mounted () {
@@ -448,48 +395,4 @@ export default {
 </script>
 
 <style scoped>
-.listTime {
-  display: grid;
-  grid-auto-flow: column;
-  padding: 0;
-}
-.itemTime {
-  display: inline-block;
-  width: 120px;
-  margin: 0;
-  padding: 0;
-}
-
-.list-event {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-}
-
-.event-item {
-  position: absolute;
-  height: 100%;
-  top: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  background-color: white;
-  box-shadow: 0 2px 13px 0.5px rgba(0, 0, 0, 0.05);
-  padding: 3px 0;
-  border: 1px solid gray;
-  border-radius: 4px;
-  cursor: pointer;
-  overflow: hidden;
-}
-
-.none {
-  display: none;
-}
-
-.nameEvent {
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-}
 </style>
