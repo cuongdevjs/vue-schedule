@@ -8,12 +8,12 @@
       >
         <el-button-group>
           <el-button
-            @click="prev"
+            @click="prevDay"
             type="primary"
             size="mini"
             icon="el-icon-arrow-left"
           >
-            Previous Day
+            Trước
           </el-button>
           <el-button
             plain
@@ -23,30 +23,30 @@
             {{dateCurrentFormatUTC}}
           </el-button>
           <el-button
-            @click="next"
+            @click="nextDay"
             size="mini"
             type="primary"
           >
-            Next Day
+            Sau
             <i class="el-icon-arrow-right el-icon-right"></i>
           </el-button>
         </el-button-group>
         <el-table
-          :data="tableData"
+          :data="listRoom"
           style="width: 100%"
           size="large"
-          height="450"
+          :height="heightTable"
         >
           <el-table-column
             label="Nơi chốn"
             prop="place"
             width="150"
-            fixed="left"
+            fixed
           ></el-table-column>
           <el-table-column
             header-align="left"
             align="left"
-            width="1200"
+            :width="listTimeline.length * 120"
           >
             <template slot="header">
               <div class="listTime">
@@ -103,9 +103,9 @@
           >Tuần tới<i class="el-icon-arrow-right el-icon-right"></i></el-button>
         </el-button-group>
         <el-table
-          :data="tableData"
+          :data="listRoom"
           style="width: 100%"
-          height="450"
+          :height="heightTable"
           size="mini"
         >
           <el-table-column
@@ -176,7 +176,140 @@
 import moment, { months } from 'moment'
 export default {
   name: 'Schedule',
-  props: ['isByDay'],
+  props: {
+    isByDay: {
+      default: false,
+      type: Boolean,
+    },
+    listTimeline: {
+      default: function () {
+        return ['08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00'];
+      },
+      type: Array
+    },
+    listRoom: {
+      default: function () {
+        return [
+          {
+            id: 1,
+            place: 'Phòng họp 12a.1'
+          }, {
+            id: 2,
+            place: 'Phòng họp 12a.2'
+          }, {
+            id: 3,
+            place: 'Phòng họp 12a.3'
+          }, {
+            id: 4,
+            place: 'Phòng họp 12a.4'
+          }, {
+            id: 5,
+            place: 'Phòng họp 12a.5'
+          }, {
+            id: 6,
+            place: 'Phòng họp 12a.6'
+          }, {
+            id: 7,
+            place: 'Phòng họp 12a.7'
+          }, {
+            id: 8,
+            place: 'Phòng họp 12a.8'
+          }, {
+            id: 9,
+            place: 'Phòng họp 12a.9'
+          }, {
+            id: 10,
+            place: 'Phòng họp 12a.10'
+          }, {
+            id: 11,
+            place: 'Phòng họp 12a.11'
+          }
+        ];
+      },
+      type: Array
+    },
+    listEvent: {
+      default: function () {
+        return [
+          {
+            place_id: 1,
+            date: 1553045407,
+            hoursStart: 1553045407,
+            hoursEnd: 1553052607,
+            name: 'Họp hội đồng quản trị thường niên Tổng công ty Mobifone'
+          },
+          {
+            place_id: 3,
+            date: 1553052607,
+            hoursStart: 1553052607,
+            hoursEnd: 1553059807,
+            name: 'Họp hội đồng quản trị eoffice'
+          },
+          {
+            place_id: 3,
+            date: 1553045407,
+            hoursStart: 1553045407,
+            hoursEnd: 1553052607,
+            name: 'Tình hình báo cáo nhân sự'
+          },
+          {
+            place_id: 3,
+            date: 1553665055,
+            hoursStart: 1553665055,
+            hoursEnd: 1553675855,
+            name: 'Tình hình báo cáo nhân sự EOFFICE'
+          },
+          {
+            place_id: 8,
+            date: 1555816218,
+            hoursStart: 1555816218,
+            hoursEnd: 1555837818,
+            name: 'Báo cáo tình hình phát triển trung tâm công nghệ thông tin Mobifone'
+          },
+          {
+            place_id: 1,
+            date: 1555816218,
+            hoursStart: 1553045407,
+            hoursEnd: 1553052607,
+            name: 'Họp hội đồng quản trị thường niên Tổng công ty Mobifone'
+          },
+          {
+            place_id: 3,
+            date: 1555816218,
+            hoursStart: 1553052607,
+            hoursEnd: 1553059807,
+            name: 'Họp hội đồng quản trị eoffice'
+          },
+          {
+            place_id: 3,
+            date: 1555816218,
+            hoursStart: 1553045407,
+            hoursEnd: 1553052607,
+            name: 'Tình hình báo cáo nhân sự'
+          },
+          {
+            place_id: 2,
+            date: 1555816218,
+            hoursStart: 1553045407,
+            hoursEnd: 1553052607,
+            name: 'Tình hình báo cáo nhân sự'
+          },
+          {
+            place_id: 8,
+            date: 1555816218,
+            hoursStart: 1555837818,
+            hoursEnd: 1555841928,
+            name: 'Báo cáo tình hình phát triển trung tâm công nghệ thông tin Mobifone'
+          }
+        ];
+      },
+      type: Array
+    },
+    heightTable: {
+      default: 450,
+      type: Number
+    }
+  },
   computed: {
     dateCurrentFormatUTC: function () {
       return this.dateCurrent._d.toLocaleDateString(['ban', 'id'])
@@ -223,11 +356,11 @@ export default {
       return (distanceHours + distanceMinutes)
     },
 
-    prev () {
+    prevDay () {
       this.dateCurrent = moment(this.dateCurrent).add(-1, 'days');
       this.$emit('prevDay')
     },
-    next () {
+    nextDay () {
       this.dateCurrent = moment(this.dateCurrent).add(1, 'days');
       this.$emit('nextDay')
     },
@@ -268,128 +401,14 @@ export default {
   data () {
     return {
       dateCurrent: moment().utc(),
-      listTimeline: ['08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00'],
-      tableData: [
-        {
-          id: 1,
-          place: 'Phòng họp 12a.1'
-        }, {
-          id: 2,
-          place: 'Phòng họp 12a.2'
-        }, {
-          id: 3,
-          place: 'Phòng họp 12a.3'
-        }, {
-          id: 4,
-          place: 'Phòng họp 12a.4'
-        }, {
-          id: 5,
-          place: 'Phòng họp 12a.5'
-        }, {
-          id: 6,
-          place: 'Phòng họp 12a.6'
-        }, {
-          id: 7,
-          place: 'Phòng họp 12a.7'
-        }, {
-          id: 8,
-          place: 'Phòng họp 12a.8'
-        }, {
-          id: 9,
-          place: 'Phòng họp 12a.9'
-        }, {
-          id: 10,
-          place: 'Phòng họp 12a.10'
-        }, {
-          id: 11,
-          place: 'Phòng họp 12a.11'
-        }
-      ],
       // data week
-      dateWeeken: new Date(),
-      listEvent: [
-        {
-          place_id: 1,
-          date: 1553045407,
-          hoursStart: 1553045407,
-          hoursEnd: 1553052607,
-          name: 'Họp hội đồng quản trị thường niên Tổng công ty Mobifone'
-        },
-        {
-          place_id: 3,
-          date: 1553052607,
-          hoursStart: 1553052607,
-          hoursEnd: 1553059807,
-          name: 'Họp hội đồng quản trị eoffice'
-        },
-        {
-          place_id: 3,
-          date: 1553045407,
-          hoursStart: 1553045407,
-          hoursEnd: 1553052607,
-          name: 'Tình hình báo cáo nhân sự'
-        },
-        {
-          place_id: 3,
-          date: 1553665055,
-          hoursStart: 1553665055,
-          hoursEnd: 1553675855,
-          name: 'Tình hình báo cáo nhân sự EOFFICE'
-        },
-        {
-          place_id: 8,
-          date: 1555816218,
-          hoursStart: 1555816218,
-          hoursEnd: 1555837818,
-          name: 'Báo cáo tình hình phát triển trung tâm công nghệ thông tin Mobifone'
-        },
-        {
-          place_id: 8,
-          date: 1555816218,
-          hoursStart: 1555837818,
-          hoursEnd: 155583890,
-          name: 'Báo cáo tình hình phát triển trung tâm công nghệ thông tin Mobifone'
-        },
-        {
-          place_id: 1,
-          date: 1555816218,
-          hoursStart: 1553045407,
-          hoursEnd: 1553052607,
-          name: 'Họp hội đồng quản trị thường niên Tổng công ty Mobifone'
-        },
-        {
-          place_id: 3,
-          date: 1555816218,
-          hoursStart: 1553052607,
-          hoursEnd: 1553059807,
-          name: 'Họp hội đồng quản trị eoffice'
-        },
-        {
-          place_id: 3,
-          date: 1555816218,
-          hoursStart: 1553045407,
-          hoursEnd: 1553052607,
-          name: 'Tình hình báo cáo nhân sự'
-        },
-        {
-          place_id: 2,
-          date: 1555816218,
-          hoursStart: 1553045407,
-          hoursEnd: 1553052607,
-          name: 'Tình hình báo cáo nhân sự'
-        },
-        {
-          place_id: 8,
-          date: 1555816218,
-          hoursStart: 1555816218,
-          hoursEnd: 1555837818,
-          name: 'Báo cáo tình hình phát triển trung tâm công nghệ thông tin Mobifone'
-        }
-      ],
+      // dateWeeken: moment().utc(),
+      dateWeeken: moment()._d,
       listDateofWeek: []
     }
   },
   mounted () {
+    this.getDayofWeek(this.dateWeeken)
   },
 }
 </script>
