@@ -24,6 +24,7 @@
         :listRoom="listRoom"
         :listEvent="listEvent"
         :heightTable="heightTable"
+        :widthSessionOfTheDay="widthSessionOfTheDay"
       />
     </div>
   </div>
@@ -80,6 +81,7 @@ export default {
       ],
       listEvent: [
         {
+          _id: 1,
           place_id: 1,
           date: 1553045407,
           hoursStart: 1553045407,
@@ -87,6 +89,7 @@ export default {
           name: 'Họp hội đồng quản trị thường niên Tổng công ty Mobifone'
         },
         {
+          _id: 2,
           place_id: 3,
           date: 1553052607,
           hoursStart: 1553052607,
@@ -94,6 +97,7 @@ export default {
           name: 'Họp hội đồng quản trị eoffice'
         },
         {
+          _id: 3,
           place_id: 3,
           date: 1553045407,
           hoursStart: 1553045407,
@@ -101,6 +105,7 @@ export default {
           name: 'Tình hình báo cáo nhân sự'
         },
         {
+          _id: 4,
           place_id: 3,
           date: 1553665055,
           hoursStart: 1553665055,
@@ -108,6 +113,7 @@ export default {
           name: 'Tình hình báo cáo nhân sự EOFFICE'
         },
         {
+          _id: 5,
           place_id: 8,
           date: 1555816218,
           hoursStart: 1555816218,
@@ -115,6 +121,7 @@ export default {
           name: 'Báo cáo tình hình phát triển trung tâm công nghệ thông tin Mobifone'
         },
         {
+          _id: 6,
           place_id: 1,
           date: 1555816218,
           hoursStart: 1553045407,
@@ -122,6 +129,7 @@ export default {
           name: 'Họp hội đồng quản trị thường niên Tổng công ty Mobifone'
         },
         {
+          _id: 7,
           place_id: 3,
           date: 1555816218,
           hoursStart: 1553052607,
@@ -129,6 +137,7 @@ export default {
           name: 'Họp hội đồng quản trị eoffice'
         },
         {
+          _id: 8,
           place_id: 3,
           date: 1555816218,
           hoursStart: 1553045407,
@@ -136,6 +145,7 @@ export default {
           name: 'Tình hình báo cáo nhân sự'
         },
         {
+          _id: 9,
           place_id: 2,
           date: 1555816218,
           hoursStart: 1553045407,
@@ -143,6 +153,7 @@ export default {
           name: 'Tình hình báo cáo nhân sự'
         },
         {
+          _id: 10,
           place_id: 8,
           date: 1555816218,
           hoursStart: 1555837818,
@@ -150,13 +161,11 @@ export default {
           name: 'Báo cáo tình hình phát triển trung tâm công nghệ thông tin Mobifone'
         }
       ],
-      heightTable: 600
+      heightTable: 600,
+      widthSessionOfTheDay: 200
     }
   },
   methods: {
-    // goToProgress: function () {
-    //   this.$router.push({ name: 'Progress' });
-    // },
     goToSchedulerByDay: function () {
       this.isByDay = true
     },

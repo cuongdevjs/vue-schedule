@@ -35,6 +35,7 @@
           :data="listRoom"
           style="width: 100%"
           size="large"
+          v-loading="loadingTable"
           :height="heightTable"
         >
           <el-table-column
@@ -107,6 +108,7 @@
           style="width: 100%"
           :height="heightTable"
           size="mini"
+          v-loading="loadingTable"
         >
           <el-table-column
             label="Nơi chốn"
@@ -125,12 +127,13 @@
               label="Sáng"
               header-align="center"
               align="center"
-              width="300"
+              :width="widthSessionOfTheDay"
             >
               <template slot-scope="scope">
                 <div
-                  v-for="event in listEvent"
-                  :key="event.name"
+                  v-for="(event, index) in listEvents"
+                  :key="index"
+                  class="listEvent"
                 >
                   <div
                     v-if="(event.place_id === scope.row.id) && (getDateFormatFromDate(event.date) === item) && (getHoursFromDate(event.hoursStart) < 12)"
@@ -147,12 +150,12 @@
               label="Chiều"
               header-align="center"
               align="center"
-              width="300"
+              :width="widthSessionOfTheDay"
             >
               <template slot-scope="scope">
                 <div
-                  v-for="event in listEvent"
-                  :key="event.name"
+                  v-for="(event, index) in listEvents"
+                  :key="index"
                   class="listEvent"
                 >
                   <div
@@ -308,6 +311,10 @@ export default {
     heightTable: {
       default: 450,
       type: Number
+    },
+    widthSessionOfTheDay: {
+      default: 250,
+      type: Number
     }
   },
   computed: {
@@ -357,12 +364,16 @@ export default {
     },
 
     prevDay () {
+      this.loadingTable = true
       this.dateCurrent = moment(this.dateCurrent).add(-1, 'days');
       this.$emit('prevDay')
+      this.loadingTable = false
     },
     nextDay () {
+      this.loadingTable = true
       this.dateCurrent = moment(this.dateCurrent).add(1, 'days');
       this.$emit('nextDay')
+      this.loadingTable = false
     },
 
     getEvent (event) {
@@ -379,14 +390,22 @@ export default {
 
 
     prevWeek () {
+      this.loadingTable = true
       var pastDate = this.dateWeeken.getDate() - 7;
       this.dateWeeken.setDate(pastDate);
       this.getDayofWeek(this.dateWeeken)
+      this.$nextTick(() => {
+        this.loadingTable = false
+      })
     },
     nextWeek () {
+      this.loadingTable = true
       var pastDate = this.dateWeeken.getDate() + 7;
       this.dateWeeken.setDate(pastDate);
       this.getDayofWeek(this.dateWeeken)
+      this.$nextTick(() => {
+        this.loadingTable = false
+      })
     },
     getDayofWeek (date) {
       this.listDateofWeek = []
@@ -400,8 +419,8 @@ export default {
   },
   data () {
     return {
+      loadingTable: false,
       dateCurrent: moment().utc(),
-      // data week
       // dateWeeken: moment().utc(),
       dateWeeken: moment()._d,
       listDateofWeek: []
