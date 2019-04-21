@@ -17,14 +17,20 @@
       </el-button-group>
     </div>
     <div class="flex-row flex__center margin-top-10 width__100">
-      <!-- <router-view /> -->
       <CalendarSchedule
         :isByDay="isByDay"
         :listTimeline="listTimeline"
         :listRoom="listRoom"
         :listEvent="listEvent"
         :heightTable="heightTable"
+        :loadingTable="loadingTable"
         :widthSessionOfTheDay="widthSessionOfTheDay"
+        @eventClick="eventClick"
+        @prevDay="loadDataPrevDay"
+        @nextDay="loadDataNextDay"
+        @prevWeek="loadDataPrevWeek"
+        @nextWeek="loadDataNextWeek"
+        @loadData="loadData"
       />
     </div>
   </div>
@@ -161,8 +167,9 @@ export default {
           name: 'Báo cáo tình hình phát triển trung tâm công nghệ thông tin Mobifone'
         }
       ],
-      heightTable: 600,
-      widthSessionOfTheDay: 200
+      heightTable: 450,
+      widthSessionOfTheDay: 200,
+      loadingTable: false
     }
   },
   methods: {
@@ -171,6 +178,34 @@ export default {
     },
     goToSchedulerByWeek: function () {
       this.isByDay = false
+    },
+    eventClick: function (event) {
+      alert(event.name)
+    },
+    loadDataPrevDay: function () {
+
+    },
+    loadDataNextDay: function () {
+
+    },
+    loadDataPrevWeek: function () {
+
+    },
+    loadDataNextWeek: function () {
+
+    },
+    loadData: function (value) {
+      if (value) {
+
+      } else {
+
+      }
+      this.loadingTable = true;
+      this.$nextTick(_ => {
+        setTimeout(_ => {
+          this.loadingTable = false
+        }, 1000)
+      })
     }
   },
 

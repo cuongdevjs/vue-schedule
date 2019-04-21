@@ -6,7 +6,7 @@
         :span="24"
         class="flex-col flex__center"
       >
-        <el-button-group>
+        <div class="flex-row flex__center">
           <el-button
             @click="prevDay"
             type="primary"
@@ -15,13 +15,24 @@
           >
             Trước
           </el-button>
-          <el-button
+          <!-- <el-button
             plain
             disabled
             size="mini"
           >
             {{dateCurrentFormatUTC}}
-          </el-button>
+          </el-button> -->
+          <el-date-picker
+            v-model="dateCurrent"
+            type="date"
+            size="mini"
+            format="dd/MM/yyyy"
+            placeholder="Chọn ngày hiển thị"
+            prefix-icon="none"
+            clearable
+            @change="changeDate"
+          >
+          </el-date-picker>
           <el-button
             @click="nextDay"
             size="mini"
@@ -30,7 +41,7 @@
             Sau
             <i class="el-icon-arrow-right el-icon-right"></i>
           </el-button>
-        </el-button-group>
+        </div>
         <el-table
           :data="listRoom"
           style="width: 100%"
@@ -43,6 +54,7 @@
             prop="place"
             width="150"
             fixed
+            show-overflow-tooltip
           ></el-table-column>
           <el-table-column
             header-align="left"
@@ -71,13 +83,19 @@
                   'width: ' + getWidthAEvent(event.hoursStart, event.hoursEnd) + 'px'"
                     @click="getEvent(event)"
                   >
-                    <div
-                      v-if="scope.row.id === event.place_id"
-                      class="width__100 height__100"
+                    <el-tooltip
+                      effect="dark"
+                      :content="event.name"
+                      placement="top"
                     >
-                      <div class="nameEvent">{{event.name}}</div>
-                      <div>{{getTimeFromDate(event.hoursStart)}} - {{getTimeFromDate(event.hoursEnd)}}</div>
-                    </div>
+                      <div
+                        v-if="scope.row.id === event.place_id"
+                        :class="['width__100 height__100', customClassEventByDay]"
+                      >
+                        <h3 class="nameEvent">{{event.name}}</h3>
+                        <div>{{getTimeFromDate(event.hoursStart)}} - {{getTimeFromDate(event.hoursEnd)}}</div>
+                      </div>
+                    </el-tooltip>
                   </div>
                 </div>
               </div>
@@ -113,6 +131,7 @@
           <el-table-column
             label="Nơi chốn"
             prop="place"
+            show-overflow-tooltip
             width="120"
             fixed="left"
           ></el-table-column>
@@ -137,10 +156,10 @@
                 >
                   <div
                     v-if="(event.place_id === scope.row.id) && (getDateFormatFromDate(event.date) === item) && (getHoursFromDate(event.hoursStart) < 12)"
-                    class="event"
+                    :class="['event', customClassEventByWeek]"
                     @click="getEvent(event)"
                   >
-                    <h6 class="name margin-0 padding-0">{{event.name}}</h6>
+                    <h3 class="name margin-0 padding-0">{{event.name}}</h3>
                     <div>{{getTimeFromDate(event.hoursStart)}} - {{getTimeFromDate(event.hoursEnd)}}</div>
                   </div>
                 </div>
@@ -160,10 +179,10 @@
                 >
                   <div
                     v-if="(event.place_id === scope.row.id) && (getDateFormatFromDate(event.date) === item) && (getHoursFromDate(event.hoursStart) > 12 || getHoursFromDate(event.hoursStart) == 12)"
-                    class="event"
+                    :class="['event', customClassEventByWeek]"
                     @click="getEvent(event)"
                   >
-                    <h6 class="name margin-0 padding-0">{{event.name}}</h6>
+                    <h3 class="name margin-0 padding-0">{{event.name}}</h3>
                     <div>{{getTimeFromDate(event.hoursStart)}} - {{getTimeFromDate(event.hoursEnd)}}</div>
                   </div>
                 </div>
@@ -315,11 +334,25 @@ export default {
     widthSessionOfTheDay: {
       default: 250,
       type: Number
+    },
+    loadingTable: {
+      default: false,
+      type: Boolean
+    },
+    customClassEventByDay: {
+      default: '',
+      type: String
+    },
+    customClassEventByWeek: {
+      default: '',
+      type: String
     }
   },
   computed: {
-    dateCurrentFormatUTC: function () {
-      return this.dateCurrent._d.toLocaleDateString(['ban', 'id'])
+    dateCurrentFormatUTC: {
+      get: function () {
+        return this.dateCurrent
+      }
     },
     listEvents: function () {
       return this.listEvent
@@ -327,6 +360,12 @@ export default {
     // computed by week
     dayOfWeek: function () {
       return this.listDateofWeek
+    }
+  },
+  watch: {
+    date: function (newValue) {
+      console.log(newValue)
+      return (newValue && (this.dateCurrentFormatUTC = newValue))
     }
   },
   methods: {
@@ -363,22 +402,6 @@ export default {
       return (distanceHours + distanceMinutes)
     },
 
-    prevDay () {
-      this.loadingTable = true
-      this.dateCurrent = moment(this.dateCurrent).add(-1, 'days');
-      this.$emit('prevDay')
-      this.loadingTable = false
-    },
-    nextDay () {
-      this.loadingTable = true
-      this.dateCurrent = moment(this.dateCurrent).add(1, 'days');
-      this.$emit('nextDay')
-      this.loadingTable = false
-    },
-
-    getEvent (event) {
-      this.$emit('eventClick', event)
-    },
 
     // by week
 
@@ -388,45 +411,64 @@ export default {
     },
 
 
+    prevDay () {
+      this.dateCurrent = moment(this.dateCurrent).add(-1, 'days')
+      this.$emit('prevDay')
+      this.$emit('loadData')
+    },
+    nextDay () {
+      this.dateCurrent = moment(this.dateCurrent).add(1, 'days')
+      this.$emit('nextDay')
+      this.$emit('loadData')
+    },
+
+    getEvent (event) {
+      this.$emit('eventClick', event)
+    },
+
 
     prevWeek () {
-      this.loadingTable = true
-      var pastDate = this.dateWeeken.getDate() - 7;
-      this.dateWeeken.setDate(pastDate);
+      this.$emit('loadData')
+      var pastDate = this.dateWeeken.getDate() - 7
+      this.dateWeeken.setDate(pastDate)
       this.getDayofWeek(this.dateWeeken)
-      this.$nextTick(() => {
-        this.loadingTable = false
-      })
+      this.$emit('prevWeek')
     },
+
     nextWeek () {
-      this.loadingTable = true
-      var pastDate = this.dateWeeken.getDate() + 7;
-      this.dateWeeken.setDate(pastDate);
+      this.$emit('loadData')
+      var pastDate = this.dateWeeken.getDate() + 7
+      this.dateWeeken.setDate(pastDate)
       this.getDayofWeek(this.dateWeeken)
-      this.$nextTick(() => {
-        this.loadingTable = false
-      })
+      this.$emit('nextWeek')
     },
+
+
     getDayofWeek (date) {
       this.listDateofWeek = []
-      var first = date.getDate() - date.getDay();
+      var first = date.getDate() - 7;
       for (var i = 1; i < 8; i++) {
         var next = new Date(date.getTime());
         next.setDate(first + i);
         this.listDateofWeek.push(next.toLocaleDateString(['ban', 'id']));
       }
     },
+
+    changeDate (value) {
+      let timeSpecific = Math.floor(value.getTime() / 1000)
+      this.$emit('loadData', timeSpecific)
+    }
   },
+
   data () {
     return {
-      loadingTable: false,
-      dateCurrent: moment().utc(),
-      // dateWeeken: moment().utc(),
+      dateCurrent: moment().utc()._d,
       dateWeeken: moment()._d,
       listDateofWeek: []
     }
   },
-  mounted () {
+
+  created () {
     this.getDayofWeek(this.dateWeeken)
   },
 }

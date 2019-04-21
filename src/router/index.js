@@ -1,8 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-
-import ProgressRouter from "../components/ProgressDemo";
-import CalendarElement from "../components/CalendarElement";
+import CalendarByWeek from "../components/CalendarElement";
 import CalendarByDay from "../components/CalendarByDay";
 import Home from "../components/Home";
 Vue.use(VueRouter);
@@ -13,14 +11,9 @@ const route = [
     component: Home,
     children: [
       {
-        path: "progress",
-        name: "Progress",
-        component: ProgressRouter
-      },
-      {
         path: "calendar-by-week",
         name: "CalendarWeek",
-        component: CalendarElement
+        component: CalendarByWeek
       },
       {
         path: "calendar-by-day",
