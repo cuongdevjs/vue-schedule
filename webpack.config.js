@@ -53,7 +53,7 @@ module.exports = [
     }
   }),
   merge(config, {
-    entry: path.resolve(__dirname + "/src/VueCalendarSchedule.vue"),
+    entry: path.resolve(__dirname + "/src/components/CalendarSchedule.vue"),
     output: {
       filename: "vue-calendar-schedule.js",
       libraryTarget: "umd",
