@@ -2,20 +2,18 @@
 
 > schedule display by day and by week
 
-## Build Setup
+Download:
 
-```bash
-# install dependencies
-npm install
+`npm install vue-schedule`
 
-# serve with hot reload at localhost:8080
-npm run dev
 
-# build for production with minification
-npm run build
+# But first, because some reason about import setting dependencies in bundle package so it won't work if install by normal way
+## If you wanna use package:
+* ### Please visit [repo GitHub here!](https://github.com/CuongStf/vue-schedule)
+* ### Clone project and copy file CalendarByDay.vue (Schedule by Day), CalendarElement.vue (Schedule by Week) in src/components directory in your project.
+* ### Use the files above as file CalendarSchedule.vue in repo
+* ### Can custom as you like.
 
-# build for production and view the bundle analyzer report
-npm run build --report
-```
 
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+![MacDown Screenshot](/src/assets/Day.png "Calendar Schedule By Day")
+![MacDown Screenshot](/src/assets/Week.png "Calendar Schedule By Week")

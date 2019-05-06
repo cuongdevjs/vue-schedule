@@ -20,6 +20,11 @@ const route = [
         name: "CalendarDay",
         component: CalendarByDay
       }
+      // {
+      //   path: "calendar-lib",
+      //   name: "CalendarLib",
+      //   component: () => import("../components/CalendarLibrary.vue")
+      // }
     ]
   }
 ];
