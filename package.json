@@ -3,7 +3,7 @@
   "version": "1.0.4",
   "description": "schedule display by day and by week",
   "author": "Nguyễn Mạnh Cường <nguyenmanhcuong.stf@gmail.com>",
-  "private": false,
+  "private": true,
   "main": "dist/vue-calendar-schedule.js",
   "scripts": {
     "build": "node build/build.js",
