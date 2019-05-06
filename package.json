@@ -1,6 +1,6 @@
 {
   "name": "vue-calendar-schedule",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "schedule display by day and by week",
   "author": "Nguyễn Mạnh Cường <nguyenmanhcuong.stf@gmail.com>",
   "private": false,
