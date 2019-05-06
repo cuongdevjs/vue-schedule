@@ -13,12 +13,13 @@
 
 * If your project use [Element UI Kit](https://element.eleme.io), you can go through next step.
 	1. First, install Element UI, `npm i element-ui -S`
-	2. Don't worry about size, we will just use Table's package Element, by way import in **App.vue**\
+	2. Don't worry about size, we will just use Table's package Element, by way import in **App.vue**
 	```
 		import Vue from 'vue';
 		import { Table } from 'element-ui';
-		import locale from 'element-ui/lib/locale/lang/en'
-		Vue.use(Table, {locale})```
+		import locale from 'element-ui/lib/locale/lang/en';
+		Vue.use(Table, {locale});
+
 
 * Please visit [repo GitHub here!](https://github.com/CuongStf/vue-schedule)
 
