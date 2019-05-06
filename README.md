@@ -2,6 +2,7 @@
 
 ### schedule display by day and by week
 
+[Link NPM](https://www.npmjs.com/package/vue-calendar-schedule)
 
 ![MacDown Screenshot](/src/assets/Day.png "Calendar Schedule By Day")
 
