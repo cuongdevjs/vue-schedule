@@ -1,5 +1,7 @@
 # vue-schedule
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/CuongStf/vue-schedule.svg)](https://greenkeeper.io/)
+
 ### schedule display by day and by week
 
 [Link NPM](https://www.npmjs.com/package/vue-calendar-schedule)
