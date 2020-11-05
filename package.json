@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "vue": "^2.5.2",
-    "vue-router": "^3.0.1",
+    "vue-router": "^3.4.9",
     "element-ui": "2.4.11",
     "moment": "^2.24.0"
   },
