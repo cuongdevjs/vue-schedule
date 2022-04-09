@@ -19,7 +19,7 @@
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
     "element-ui": "2.4.11",
-    "moment": "^2.24.0"
+    "moment": "^2.29.2"
   },
   "devDependencies": {
     "babel-core": "^6.10.4",
